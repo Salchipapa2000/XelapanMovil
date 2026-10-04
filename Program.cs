@@ -17,6 +17,7 @@ var productos = new List<Producto>
     new(6, "Pan de manteca", "Panadería", 3.50m),
     new(7, "Champurradas (3)", "Panadería", 6.00m),
     new(8, "Shecas", "Panadería", 4.00m),
+    new(9, "Tamal Colorado", "Comida", 12.00m),
 };
 var pedidos = new List<Pedido>();
 
