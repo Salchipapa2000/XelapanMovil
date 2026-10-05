@@ -1,36 +1,20 @@
-<!DOCTYPE htm>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Clave para móviles: usar el ancho real del dispositivo -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#6B3E26">
-    <title>Café Xelapán — Menú móvil</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="img/icono.svg" type="image/svg+xml">
+    <title>Agroservicio La Cosecha</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
     <header class="barra">
-    <h1>☕ Café Xelapán</h1>
-    <p>Quetzaltenango · Pedidos para recoger</p>
+        <h1>�� Agroservicio La Cosecha</h1>
+        <input id="buscar" type="search" placeholder="Buscar insumo...">
     </header>
-
-    <nav id="filtros" class="filtros" aria-label="Categorías"></nav>
-
     <main>
         <p id="mensaje" class="mensaje" hidden></p>
         <section id="lista" class="lista"></section>
     </main>
-
-    <footer class="carrito">
-        <span id="resumen">0 productos · Q0.00</span>
-        <form id="formPedido">
-            <input id="cliente" type="text" placeholder="Tu nombre" required>
-            <button type="submit">Enviar pedido</button>
-        </form>
-    </footer>
-
     <script src="js/app.js"></script>
 </body>
 </html>
