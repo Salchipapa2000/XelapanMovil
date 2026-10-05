@@ -1,56 +1,34 @@
-/* estilos.css — MOBILE FIRST: primero el celular, luego pantallas grandes */
+/* estilos.css — Agroservicio La Cosecha (mobile-first) */
 * { box-sizing: border-box; margin: 0; }
-    body {
+body {
     font-family: system-ui, sans-serif;
-    background: #FFF8F0;
-    color: #3A2A1F;
-    padding-bottom: 150px; /* espacio para el carrito fijo */
+    background: #F4F8EE;
+    color: #22331A;
 }
-.barra { background: #6B3E26; color: #fff; padding: 1rem; }
-.barra h1 { font-size: 1.4rem; }
-.barra p { font-size: .9rem; opacity: .85; }
-
-.filtros { display: flex; gap: .5rem; overflow-x: auto; padding: .75rem 1rem; }
-.filtros button {
-    flex: 0 0 auto; border: 1px solid #6B3E26; background: #fff;
-    color: #6B3E26; border-radius: 999px; padding: .5rem 1rem;
-    min-height: 44px; /* área táctil mínima recomendada */
+.barra {
+    background: #2E6B30; color: #fff;
+    padding: 1rem; display: grid; gap: .5rem;
 }
-.filtros button.activo { background: #6B3E26; color: #fff; }
-
-.lista { display: grid; grid-template-columns: 1fr; gap: .75rem; padding: 0 1rem; }
+.barra input {
+    padding: .6rem; border-radius: 8px; border: none;
+    min-height: 44px; font-size: 1rem; /* 16 px: evita el zoom en iPhone */
+}
+.lista { display: grid; gap: .75rem; padding: 1rem; }
 .tarjeta {
     background: #fff; border-radius: 12px; padding: 1rem;
     box-shadow: 0 1px 4px rgba(0,0,0,.12);
-    display: flex; justify-content: space-between; align-items: center;
 }
 .tarjeta h2 { font-size: 1rem; }
-.tarjeta small { color: #8A6D5A; }
-.tarjeta button {
-    min-width: 44px; min-height: 44px; border: none; border-radius: 50%;
-    background: #C55A11; color: #fff; font-size: 1.4rem;
+.tarjeta small { color: #5B6B52; }
+.alerta {
+    display: inline-block; background: #FFE0B2; color: #8A4B00;
+    border-radius: 6px; padding: .1rem .5rem; font-size: .8rem;
 }
-.mensaje { margin: 1rem; padding: .75rem; border-radius: 8px; background: #E8F5E9; }
-.mensaje.error { background: #FDECEA; color: #8B1A1A; }
+.mensaje { margin: 1rem; padding: .75rem; border-radius: 8px; background: #FDECEA; }
 
-.carrito {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: #3A2A1F; color: #fff; padding: .75rem 1rem;
-}
-.carrito form { display: flex; gap: .5rem; margin-top: .5rem; }
-.carrito input { flex: 1; padding: .6rem; border-radius: 8px; border: none; min-height: 44px; }
-.carrito button {
-    background: #C55A11; color: #fff; border: none;
-    border-radius: 8px; padding: 0 1rem; min-height: 44px;
-}
-
-/* Tabletas: 2 columnas */
-@media (min-width: 600px) {
+@media (min-width: 600px) { /* tabletas */
     .lista { grid-template-columns: repeat(2, 1fr); }
 }
-/* Computadoras: 3 columnas y contenido centrado */
-@media (min-width: 900px) {
-    .lista { grid-template-columns: repeat(3, 1fr); max-width: 1000px; margin: 0 auto; }
-    .carrito { display: flex; justify-content: space-between; align-items: center; }
-    .carrito form { margin-top: 0; }
+@media (min-width: 900px) { /* computadoras */
+    .lista { grid-template-columns: repeat(3, 1fr); max-width: 1100px; margin: 0 auto; }
 }
