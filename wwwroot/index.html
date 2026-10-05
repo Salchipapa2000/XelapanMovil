@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,10 +12,65 @@
         <h1>�� Agroservicio La Cosecha</h1>
         <input id="buscar" type="search" placeholder="Buscar insumo...">
     </header>
+
     <main>
+
         <p id="mensaje" class="mensaje" hidden></p>
+
+        <!-- AGREGADO: filtros por categoría -->
+        <section class="filtros">
+            <button type="button" class="chip activo" data-categoria="">Todas</button>
+            <button type="button" class="chip" data-categoria="Semillas">Semillas</button>
+            <button type="button" class="chip" data-categoria="Fertilizantes">Fertilizantes</button>
+            <button type="button" class="chip" data-categoria="Herramientas">Herramientas</button>
+            <button type="button" class="chip" data-categoria="Protección">Protección</button>
+        </section>
+
         <section id="lista" class="lista"></section>
+
+        <!-- AGREGADO: resumen de la cotización -->
+        <section class="resumen">
+            <h2>Mi cotización</h2>
+            <p id="resumen">Insumos en la cotización: 0</p>
+        </section>
+
+        <!-- AGREGADO: formulario -->
+        <section class="formulario">
+
+            <h2>Solicitar cotización</h2>
+
+            <form id="form-cotizacion">
+
+                <label for="cliente">Nombre</label>
+                <input
+                    id="cliente"
+                    type="text"
+                    required
+                    placeholder="Nombre del cliente">
+
+                <label for="telefono">Teléfono</label>
+                <input
+                    id="telefono"
+                    type="tel"
+                    pattern="[0-9]{8}"
+                    maxlength="8"
+                    inputmode="numeric"
+                    required
+                    placeholder="12345678">
+
+                <button type="submit" class="btn-principal">
+                    Solicitar cotización
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- AGREGADO: resultado -->
+        <section id="resultado" class="resultado" hidden></section>
+
     </main>
+
     <script src="js/app.js"></script>
 </body>
 </html>
