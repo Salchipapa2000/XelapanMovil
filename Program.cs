@@ -1,62 +1,38 @@
-// Program.cs — Servicio web + app web móvil de Café Xelapán
+using AgroCosechaMovil.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-// 1) Archivos estáticos: sirve la app móvil que está en la carpeta wwwroot
-app.UseDefaultFiles(); // "/" devuelve wwwroot/index.html
-app.UseStaticFiles(); // permite descargar .html, .css, .js, .json, imágenes
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
-// 2) "Base de datos" en memoria (en la Semana 9 usamos ADO.NET + SQL Server)
-var productos = new List<Producto>
+var insumos = new List<Insumo>
 {
-    new(1, "Café de olla", "Bebidas calientes", 15.00m),
-    new(2, "Capuchino", "Bebidas calientes", 20.00m),
-    new(3, "Chocolate Xelajú", "Bebidas calientes", 18.00m),
-    new(4, "Frappé de café", "Bebidas frías", 25.00m),
-    new(5, "Licuado de banano", "Bebidas frías", 16.00m),
-    new(6, "Pan de manteca", "Panadería", 3.50m),
-    new(7, "Champurradas (3)", "Panadería", 6.00m),
-    new(8, "Shecas", "Panadería", 4.00m),
-    new(9, "Tamal Colorado", "Comida", 12.00m),
+    new(1, "Semilla de maíz ICTA HB-83", "Semillas", "bolsa 10 lb", 185.00m, 40),
+    new(2, "Semilla de frijol negro ICTA", "Semillas", "libra", 12.50m, 120),
+    new(3, "Fertilizante 15-15-15", "Fertilizantes", "saco 45 kg", 295.00m, 25),
+    new(4, "Urea 46 %", "Fertilizantes", "saco 45 kg", 310.00m, 8),
+    new(5, "Abono orgánico (bocashi)", "Fertilizantes", "saco 25 kg", 65.00m, 60),
+    new(6, "Machete 22 pulgadas", "Herramientas", "unidad", 55.00m, 30),
+    new(7, "Bomba de mochila 16 L", "Herramientas", "unidad", 425.00m, 5),
+    new(8, "Fungicida a base de cobre", "Protección", "kilogramo", 98.00m, 18),
 };
-var pedidos = new List<Pedido>();
+var cotizaciones = new List<Cotizacion>();
 
-// 3) Endpoints del servicio web REST (mismo estilo que la Semana 10)
-app.MapGet("/api/productos", () => productos);
+// GET /api/insumos?categoria=Semillas (el filtro es opcional)
+app.MapGet("/api/insumos", (string? categoria) =>
+    string.IsNullOrWhiteSpace(categoria)
+        ? insumos
+        : insumos.Where(i => i.Categoria.Equals(categoria,StringComparison.OrdinalIgnoreCase)).ToList());
 
-app.MapGet("/api/productos/{id:int}", (int id) =>
-    productos.FirstOrDefault(p => p.Id == id) is Producto p
-        ? Results.Ok(p)
-        : Results.NotFound(new { mensaje = $"No existe el producto {id}" }));
+// GET /api/insumos/3
+app.MapGet("/api/insumos/{id:int}", (int id) =>
+    insumos.FirstOrDefault(i => i.Id == id) is Insumo i
+        ? Results.Ok(i)
+        : Results.NotFound(new { mensaje = $"No existe el insumo {id}" }));
 
-app.MapPost("/api/pedidos", (PedidoNuevo datos) =>
-{
-    // Validaciones del lado del servidor: nunca confiar solo en el navegador
-    if (string.IsNullOrWhiteSpace(datos.Cliente))
-    return Results.BadRequest(new { mensaje = "El nombre del cliente es obligatorio." });
-    if (datos.Items is null || datos.Items.Count == 0)
-    return Results.BadRequest(new { mensaje = "El pedido no tiene productos." });
-
-    decimal total = 0;
-    foreach (var item in datos.Items)
-    {
-        var prod = productos.FirstOrDefault(p => p.Id == item.ProductoId);
-        if (prod is null || item.Cantidad <= 0)
-        return Results.BadRequest(new { mensaje = $"Ítem inválido: producto {item.ProductoId}" });
-        total += prod.Precio * item.Cantidad; // el total se calcula en el servidor
-    }
-
-    var pedido = new Pedido(pedidos.Count + 1, datos.Cliente.Trim(), datos.Items, total, DateTime.Now);
-    pedidos.Add(pedido);
-    return Results.Created($"/api/pedidos/{pedido.Id}", pedido); // 201 Created
-});
-
-app.MapGet("/api/pedidos", () => pedidos);
+// ===== PARTE 1: tu código va aquí =====
+// app.MapPost("/api/cotizaciones", (CotizacionNueva datos) => { ... });
+// app.MapGet("/api/cotizaciones", () => ...);
 
 app.Run();
-
-// 4) Modelos (records de C#): deben ir DESPUÉS de las instrucciones de nivel superior
-record Producto(int Id, string Nombre, string Categoria, decimal Precio);
-record ItemPedido(int ProductoId, int Cantidad);
-record PedidoNuevo(string Cliente, List<ItemPedido> Items);
-record Pedido(int Id, string Cliente, List<ItemPedido> Items, decimal Total, DateTime Fecha);
